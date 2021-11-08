@@ -15,10 +15,10 @@
       "xml": "It looks like there was a problem loading your XML file. {{suggestion}}"
     },
     "friendlyParamError": {
-      "type_EMPTY_VAR": "{{func}}() was expecting {{formatType}} for the {{position}} parameter, received an empty variable instead. {{location}}\n\nIf not intentional, this is often a problem with scope: {{link}}",
-      "type_TOO_FEW_ARGUMENTS": "{{func}}() was expecting at least {{minParams}} arguments, but received only {{argCount}}. {{location}}",
-      "type_TOO_MANY_ARGUMENTS": "{{func}}() was expecting no more than {{maxParams}} arguments, but received {{argCount}}. {{location}}",
-      "type_WRONG_TYPE": "{{func}}() was expecting {{formatType}} for the {{position}} parameter, received {{argType}} instead. {{location}}"
+      "type_EMPTY_VAR": "{{func}}() was expecting {{formatType}} for the {{position}} parameter, received an empty variable instead.\n\nIf not intentional, this is often a problem with scope: {{link}}",
+      "type_TOO_FEW_ARGUMENTS": "{{func}}() was expecting at least {{minParams}} arguments, but received only {{argCount}}",
+      "type_TOO_MANY_ARGUMENTS": "{{func}}() was expecting no more than {{maxParams}} arguments, but received {{argCount}}",
+      "type_WRONG_TYPE": "{{func}}() was expecting {{formatType}} for the {{position}} parameter, received {{argType}} instead"
     },
     "globalErrors": {
       "reference": {

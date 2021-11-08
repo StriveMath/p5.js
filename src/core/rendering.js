@@ -59,6 +59,7 @@ p5.prototype.createCanvas = function(w, h, renderer) {
   let c;
 
   if (r === constants.WEBGL) {
+    this._basisMatrix = math.identity(4);
     c = document.getElementById(defaultId);
     if (c) {
       //if defaultCanvas already exists
@@ -70,6 +71,7 @@ p5.prototype.createCanvas = function(w, h, renderer) {
     c.id = defaultId;
     c.classList.add(defaultClass);
   } else {
+    this._basisMatrix = math.identity(3);
     if (!this._defaultGraphicsCreated) {
       c = document.createElement('canvas');
       let i = 0;
@@ -119,6 +121,10 @@ p5.prototype.createCanvas = function(w, h, renderer) {
   }
   this._renderer.resize(w, h);
   this._renderer._applyDefaults();
+
+  if (this._coordinateMode === this.RIGHT_HAND) {
+    this.rightHanded();
+  }
   return this._renderer;
 };
 

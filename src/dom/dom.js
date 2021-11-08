@@ -1776,9 +1776,16 @@ p5.Element.prototype.position = function() {
     }
     this.elt.style.position = positionType;
     this.elt.style.left = arguments[0] + 'px';
-    this.elt.style.top = arguments[1] + 'px';
+    let y;
+    if (this._pInst._coordinateMode === this._pInst.RIGHT_HAND) {
+      y = this._pInst.height - arguments[1];
+      this.elt.style.top = y + 'px';
+    } else {
+      y = arguments[1];
+      this.elt.style.top = y + 'px';
+    }
     this.x = arguments[0];
-    this.y = arguments[1];
+    this.y = y;
     return this;
   }
 };

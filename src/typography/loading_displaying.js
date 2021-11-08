@@ -223,9 +223,20 @@ p5.prototype.loadFont = function(path, onSuccess, onError) {
  */
 p5.prototype.text = function(str, x, y, maxWidth, maxHeight) {
   p5._validateParameters('text', arguments);
-  return !(this._renderer._doFill || this._renderer._doStroke)
-    ? this
-    : this._renderer.text(...arguments);
+  if (!(this._renderer._doFill || this._renderer._doStroke)) {
+    return this;
+  }
+  let yDir = this._basisMatrix.get([1, 1]);
+  let output;
+  this.push();
+  if (yDir < 0) {
+    this.scale(1, -1);
+    output = this._renderer.text(str, x, -y, maxWidth, maxHeight);
+  } else {
+    output = this._renderer.text(str, x, y, maxWidth, maxHeight);
+  }
+  this.pop();
+  return output;
 };
 
 /**

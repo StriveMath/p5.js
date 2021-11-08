@@ -225,6 +225,13 @@ p5.prototype.resetMatrix = function() {
  */
 p5.prototype.rotate = function(angle, axis) {
   p5._validateParameters('rotate', arguments);
+  const A = math.matrix([
+    [this.cos(-angle), this.sin(-angle), 0],
+    [-this.sin(-angle), this.cos(-angle), 0],
+    [0, 0, 1]
+  ]);
+  const Atrans = math.transpose(A);
+  this._basisMatrix = math.multiply(Atrans, this._basisMatrix);
   this._renderer.rotate(this._toRadians(angle), axis);
   return this;
 };
@@ -408,6 +415,21 @@ p5.prototype.scale = function(x, y, z) {
     z = 1;
   }
 
+  if (this._renderer.isP3D) {
+    const A = math.matrix([
+      [x, 0, 0, 0],
+      [0, y, 0, 0],
+      [0, 0, z, 0],
+      [0, 0, 0, 1]
+    ]);
+    const Atrans = math.transpose(A);
+    this._basisMatrix = math.multiply(Atrans, this._basisMatrix);
+  } else {
+    const A = math.matrix([[x, 0, 0], [0, y, 0], [0, 0, 1]]);
+    const Atrans = math.transpose(A);
+    this._basisMatrix = math.multiply(Atrans, this._basisMatrix);
+  }
+
   this._renderer.scale.call(this._renderer, x, y, z);
 
   return this;
@@ -552,10 +574,22 @@ p5.prototype.shearY = function(angle) {
 p5.prototype.translate = function(x, y, z) {
   p5._validateParameters('translate', arguments);
   if (this._renderer.isP3D) {
+    const A = math.matrix([
+      [1, 0, 0, x],
+      [0, 1, 0, y],
+      [0, 0, 1, z],
+      [0, 0, 0, 1]
+    ]);
+    const Atrans = math.transpose(A);
+    this._basisMatrix = math.multiply(Atrans, this._basisMatrix);
     this._renderer.translate(x, y, z);
   } else {
+    const A = math.matrix([[1, 0, x], [0, 1, y], [0, 0, 1]]);
+    const Atrans = math.transpose(A);
+    this._basisMatrix = math.multiply(Atrans, this._basisMatrix);
     this._renderer.translate(x, y);
   }
+
   return this;
 };
 

@@ -279,6 +279,7 @@ p5.prototype.isLooping = function() {
  * 2 Gold ellipses left black right blue stroke. 2 white ellipses on left+right.
  */
 p5.prototype.push = function() {
+  this._bases.push(math.matrix(this._basisMatrix));
   this._styles.push({
     props: {
       _colorMode: this._colorMode
@@ -383,6 +384,7 @@ p5.prototype.pop = function() {
   if (style) {
     this._renderer.pop(style.renderer);
     Object.assign(this, style.props);
+    this._basisMatrix = this._bases.pop();
   } else {
     console.warn('pop() was called without matching push()');
   }

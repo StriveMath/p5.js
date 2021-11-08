@@ -192,7 +192,7 @@ if (typeof IS_MINIFIED !== 'undefined') {
 
       const funcName =
         methodParts.length === 1 ? func : methodParts.slice(2).join('/');
-      msgWithReference = `${message} (http://p5js.org/reference/#/${referenceSection}/${funcName})`;
+      msgWithReference = `${message} (https://docs.strivemath.com/${referenceSection}/${funcName})`;
     }
     return msgWithReference;
   };
@@ -211,8 +211,6 @@ if (typeof IS_MINIFIED !== 'undefined') {
   p5._report = (message, func, color) => {
     // if p5._fesLogger is set ( i.e we are running tests ), use that
     // instead of console.log
-    const log =
-      p5._fesLogger == null ? console.log.bind(console) : p5._fesLogger;
 
     if (doFriendlyWelcome) {
       friendlyWelcome();
@@ -228,12 +226,18 @@ if (typeof IS_MINIFIED !== 'undefined') {
     // Add a link to the reference docs of func at the end of the message
     message = mapToReference(message, func);
     let style = [`color: ${color}`, 'font-family: Arial', 'font-size: larger'];
-    const prefixedMsg = translator('fes.pre', { message });
+
+    class p5Error extends Error {
+      constructor(message) {
+        super(message);
+        this.name = '🌸 p5.js says';
+      }
+    }
 
     if (ENABLE_FES_STYLING) {
-      log('%c' + prefixedMsg, style.join(';'));
+      throw new p5Error('%c' + message, style.join(';'));
     } else {
-      log(prefixedMsg);
+      throw new p5Error(message);
     }
   };
   /**
