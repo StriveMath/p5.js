@@ -465,7 +465,15 @@ p5.prototype.image = function(
   const vals = canvas.modeAdjust(_dx, _dy, _dw, _dh, this._renderer._imageMode);
 
   // tint the image if there is a tint
+  this.push();
+  if (this._coordinateMode === this.RIGHT_HAND) {
+    this.scale(1, -1);
+    this.translate(0, -this.height);
+    vals.y = this.height - vals.y - vals.h;
+    _sy = vals.h - _sy - _sh;
+  }
   this._renderer.image(img, _sx, _sy, _sw, _sh, vals.x, vals.y, vals.w, vals.h);
+  this.pop();
 };
 
 /**
