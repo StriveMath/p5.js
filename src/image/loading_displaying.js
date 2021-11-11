@@ -470,7 +470,7 @@ p5.prototype.image = function(
     this.scale(1, -1);
     this.translate(0, -this.height);
     vals.y = this.height - vals.y - vals.h;
-    _sy = vals.h - _sy - _sh;
+    _sy = _sy === 0 ? 0 : vals.h - _sy - _sh;
   }
   this._renderer.image(img, _sx, _sy, _sw, _sh, vals.x, vals.y, vals.w, vals.h);
   this.pop();
