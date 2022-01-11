@@ -187,12 +187,10 @@ if (typeof IS_MINIFIED !== 'undefined') {
       msgWithReference = message;
     } else {
       const methodParts = func.split('.');
-      const referenceSection =
-        methodParts.length > 1 ? `${methodParts[0]}.${methodParts[1]}` : 'p5';
 
       const funcName =
         methodParts.length === 1 ? func : methodParts.slice(2).join('/');
-      msgWithReference = `${message} (https://docs.strivemath.com/${referenceSection}/${funcName})`;
+      msgWithReference = `${message} (https://p5.strivemath.com/reference/${funcName})`;
     }
     return msgWithReference;
   };
@@ -227,12 +225,13 @@ if (typeof IS_MINIFIED !== 'undefined') {
     message = mapToReference(message, func);
     let style = [`color: ${color}`, 'font-family: Arial', 'font-size: larger'];
 
-    class p5Error extends Error {
-      constructor(message) {
-        super(message);
-        this.name = '🌸 p5.js says';
-      }
+    // Idea from Abhay's answer to this question on StackOverflow
+    // https://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
+    function p5Error(message = '') {
+      this.name = '🌸 p5.js says';
+      this.message = message;
     }
+    p5Error.prototype = Error.prototype;
 
     if (ENABLE_FES_STYLING) {
       throw new p5Error('%c' + message, style.join(';'));
