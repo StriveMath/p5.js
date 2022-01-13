@@ -56,7 +56,12 @@ p5.prototype.orbitControl = function(sensitivityX, sensitivityY, sensitivityZ) {
     this.mouseX > 0 &&
     this.mouseY < this.height &&
     this.mouseY > 0;
-  if (!mouseInCanvas) return;
+  if (!mouseInCanvas) {
+    if (this._coordinateMode === this.RIGHT_HAND) {
+      this.rightHanded();
+    }
+    return;
+  }
 
   const cam = this._renderer._curCamera;
 
@@ -142,6 +147,9 @@ p5.prototype.orbitControl = function(sensitivityX, sensitivityY, sensitivityZ) {
         cam.eyeZ + dx * local.x[2] + dz * local.z[2]
       );
     }
+  }
+  if (this._coordinateMode === this.RIGHT_HAND) {
+    this.rightHanded();
   }
   return this;
 };
