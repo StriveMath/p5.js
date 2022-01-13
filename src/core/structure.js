@@ -462,6 +462,11 @@ p5.prototype.redraw = function(n) {
     return;
   }
 
+  // immediately return if assets are not loaded
+  if (!this.assetsLoaded()) {
+    return;
+  }
+
   let numberOfRedraws = parseInt(n);
   if (isNaN(numberOfRedraws) || numberOfRedraws < 1) {
     numberOfRedraws = 1;
